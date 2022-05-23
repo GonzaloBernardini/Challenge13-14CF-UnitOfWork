@@ -8,14 +8,9 @@ namespace Challenge13Kiosco.Interfaces
 {
     public interface IProductoRepository  : IGenericRepository<Producto>
     {
-        
+        //Insertar Metodos especificos de producto en caso de necesitarlo.
 
 
-        //IEnumerable<Producto> GetProducts();
-        //Producto GetProductById(int IdProducto);
-        //void InsertProduct(Producto producto_);
         
-        //void DeleteProduct(int IdProducto);
-        //void SaveChanges();
     }
 }

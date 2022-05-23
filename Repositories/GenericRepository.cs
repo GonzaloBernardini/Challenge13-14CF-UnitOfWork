@@ -21,27 +21,29 @@ namespace Challenge13Kiosco.Repositories
         public void Add(T entity)
         {
             _dbContext.Set<T>().Add(entity);
-            _dbContext.SaveChanges();            
+            _dbContext.SaveChanges();
+               
         }
 
         public void Delete(int id)
         {
             T entity = _dbContext.Find<T>(id);
-               _dbContext.Remove(entity);           
+                 _dbContext.Remove(entity); 
         }
 
-        
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
         {
-
             return _dbContext.Set<T>().Where(predicate);
         }
 
-
         public IEnumerable<T> GetAll()
         {
-
             return _dbContext.Set<T>().ToList();
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
         }
 
         public void Update(T entity)
@@ -49,10 +51,40 @@ namespace Challenge13Kiosco.Repositories
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Save()
-        {
-            _dbContext.SaveChanges();
-        }
+        //public Add(T entity)
+        //{
+        //    _dbContext.Set<T>().Add(entity);
+        //    _dbContext.SaveChanges();
+        //    return entity;
+        //}
+
+        //public Delete (int id)
+        //{
+        //    T entity = _dbContext.Find<T>(id);
+        //       _dbContext.Remove(entity);           
+        //}
+
+
+        //public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
+        //{
+        //    return await _dbContext.Set<T>().Where(predicate);
+        //}
+
+        //public async Task<IEnumerable<T>> GetAll()
+        //{
+
+        //    return await _dbContext.Set<T>().ToListAsync();
+        //}
+
+        //public void Update(T entity)
+        //{
+        //    _dbContext.Entry(entity).State = EntityState.Modified;
+        //}
+
+        //public void Save()
+        //{
+        //    _dbContext.SaveChanges();
+        //}
 
 
         //public T Add(T entity)

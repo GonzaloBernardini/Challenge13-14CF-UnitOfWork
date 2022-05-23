@@ -16,10 +16,10 @@ namespace Challenge13Kiosco.Controllers
     {
 
         //private readonly ILogger<HomeController> _logger;
-        private readonly UnitOfWork _unitOfWork;
-        public HomeController(KioscoContext context )
+        private IUnitOfWork _unitOfWork;
+        public HomeController(IUnitOfWork unitOfWork )
         {
-            _unitOfWork = new UnitOfWork(context);
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
@@ -27,7 +27,7 @@ namespace Challenge13Kiosco.Controllers
             
             
             
-            return View();
+            return View(_unitOfWork.Producto.GetAll());
         }
 
         public IActionResult Privacy()

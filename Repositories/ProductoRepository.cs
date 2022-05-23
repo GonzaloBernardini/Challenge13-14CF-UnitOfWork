@@ -15,7 +15,7 @@ namespace Challenge13Kiosco.Repositories
         private KioscoContext _context;
         public ProductoRepository(KioscoContext context) : base(context)
         {
-            
+            _context = context;
         }
 
         public void BorrarProducto(int IdProducto)
