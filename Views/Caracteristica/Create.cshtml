@@ -1,0 +1,52 @@
+﻿@model Challenge13Kiosco.Models.Caracteristica
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Caracteristica</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ancho" class="control-label"></label>
+                <input asp-for="Ancho" class="form-control" />
+                <span asp-validation-for="Ancho" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Largo" class="control-label"></label>
+                <input asp-for="Largo" class="form-control" />
+                <span asp-validation-for="Largo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Peso" class="control-label"></label>
+                <input asp-for="Peso" class="form-control" />
+                <span asp-validation-for="Peso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdProducto" class="control-label">Seleccione Producto</label>
+                <select asp-for="IdProducto" class ="form-control" asp-items="ViewBag.NombreProducto"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver atras</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
