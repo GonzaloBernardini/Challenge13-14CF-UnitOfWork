@@ -15,15 +15,16 @@ namespace Challenge13Kiosco
         //Repositorio para clase especifica1
         //Repositorio para clase especifica1
 
-        private KioscoContext _context;
+        private readonly KioscoContext _context;
         public UnitOfWork(KioscoContext context)
         {
             _context = context;
             Producto = new ProductoRepository(_context);
+            Caracteristica = new CaracteristicaRepository(_context);
         }
 
         
-
+        public ICaracteristicaRepository Caracteristica { get; private set; }
         public IProductoRepository Producto { get; private set; }
 
         public int Complete()

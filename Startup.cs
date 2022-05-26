@@ -32,6 +32,7 @@ namespace Challenge13Kiosco
                     Configuration.GetConnectionString("KioscoCodeFirst")));
             //Inyeccion de Dependencia en startup de Unit of Work o repositorio especifico
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,21 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<Challenge13Kiosco.Models.Producto>
+
 
 <p>TEST UNIT OF WORK</p>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Categoria)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaBaja)
-        </td>
-     </tr>   
-}

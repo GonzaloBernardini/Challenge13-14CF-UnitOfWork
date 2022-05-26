@@ -31,9 +31,9 @@ namespace Challenge13Kiosco.Repositories
                  _dbContext.Remove(entity); 
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public T Find(int? id)
         {
-            return _dbContext.Set<T>().Where(predicate);
+             return _dbContext.Set<T>().Find(id);
         }
 
         public IEnumerable<T> GetAll()

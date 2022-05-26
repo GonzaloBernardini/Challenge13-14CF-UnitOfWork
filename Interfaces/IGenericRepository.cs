@@ -11,11 +11,11 @@ namespace Challenge13Kiosco.Interfaces
 
         IEnumerable<T> GetAll();
 
-        IEnumerable<T> Find(Expression<Func<T,bool>> predicate);
+         T Find(int? id);
 
-        void Save();
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(int id);
+         void Save();
+         void Add(T entity);
+         void Update (T entity);
+         void Delete (int id);
     }
 }

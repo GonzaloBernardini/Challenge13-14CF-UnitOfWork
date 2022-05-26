@@ -7,7 +7,8 @@ namespace Challenge13Kiosco.Interfaces
 {
     public interface IUnitOfWork
     {
-        
+    
+     ICaracteristicaRepository Caracteristica { get; }   
      IProductoRepository Producto{ get; } 
      int Complete();
 

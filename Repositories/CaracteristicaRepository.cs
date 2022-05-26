@@ -1,52 +1,49 @@
 ﻿using Challenge13Kiosco.Data;
 using Challenge13Kiosco.Interfaces;
 using Challenge13Kiosco.Models;
-using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace Challenge13Kiosco.Repositories
 {
-    public class ProductoRepository : GenericRepository<Producto>,IProductoRepository
+    public class CaracteristicaRepository : GenericRepository<Caracteristica>, ICaracteristicaRepository
     {
         private readonly KioscoContext _context;
-        public ProductoRepository(KioscoContext context) : base(context)
+
+        public CaracteristicaRepository(KioscoContext context) : base(context)
         {
             _context = context;
         }
 
-        public void BorrarProducto(int IdProducto)
+        public void BorrarCaracteristica(int IdCaracteristica)
         {
-            Delete(IdProducto);
-           
+            Delete(IdCaracteristica);
+
         }
 
-        public  Producto BuscarProducto(int IdProducto)
+        public Caracteristica BuscarCaracteristica(int IdCaracteristica)
         {
             //probar si esta bien.
-            return _context.Productos.Find(IdProducto);
+            return _context.Caracteristicas.Find(IdCaracteristica);
         }
 
-        public List<Producto> GetProductos()
+        public List<Caracteristica> GetCaracteristica()
         {
             /*_context.Productos.ToList();*/
             //Probar si esta bien.
             return GetAll().ToList();
         }
 
-        public void InsertProducto(Producto producto_)
+        public void InsertProducto(Caracteristica caracteristica)
         {
-            Add(producto_);
+            Add(caracteristica);
         }
 
         public void GuardarCambios()
         {
             Save();
         }
-
-        
     }
 }

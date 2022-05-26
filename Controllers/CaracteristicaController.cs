@@ -7,36 +7,39 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Challenge13Kiosco.Data;
 using Challenge13Kiosco.Models;
+using Challenge13Kiosco.Interfaces;
 
 namespace Challenge13Kiosco.Controllers
 {
     public class CaracteristicaController : Controller
     {
-        private readonly KioscoContext _context;
+        //private readonly KioscoContext _context;
 
-        public CaracteristicaController(KioscoContext context)
+        readonly IUnitOfWork _unitOfWork;
+
+        public CaracteristicaController(IUnitOfWork ouw)
         {
-            _context = context;
+            _unitOfWork = ouw;
         }
 
         // GET: Caracteristica
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var kioscoContext = _context.Caracteristicas.Include(c => c.Producto);
-            return View(await kioscoContext.ToListAsync());
+            //var kioscoContext = _context.Caracteristicas.Include(c => c.Producto);
+            //await kioscoContext.ToListAsync()
+            return View(_unitOfWork.Caracteristica.GetAll());
         }
 
         // GET: Caracteristica/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public  IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var caracteristica = await _context.Caracteristicas
-                .Include(c => c.Producto)
-                .FirstOrDefaultAsync(m => m.IdCaracteristica == id);
+            var caracteristica = _unitOfWork.Caracteristica.Find(id);
+                
             if (caracteristica == null)
             {
                 return NotFound();
@@ -48,7 +51,7 @@ namespace Challenge13Kiosco.Controllers
         // GET: Caracteristica/Create
         public IActionResult Create()
         {
-            ViewData["NombreProducto"] = new SelectList(_context.Productos, "IdProducto", "Nombre");
+            ViewData["NombreProducto"] = new SelectList(_unitOfWork.Producto.GetAll(), "IdProducto", "Nombre");
             return View();
         }
 
@@ -57,32 +60,33 @@ namespace Challenge13Kiosco.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdCaracteristica,Precio,Ancho,Largo,Peso,IdProducto")] Caracteristica caracteristica)
+        public  IActionResult Create([Bind("IdCaracteristica,Precio,Ancho,Largo,Peso,IdProducto")] Caracteristica caracteristica)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(caracteristica);
-                await _context.SaveChangesAsync();
+                _unitOfWork.Caracteristica.Add(caracteristica);
+                 _unitOfWork.Caracteristica.Save();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", caracteristica.IdProducto);
+            ViewData["IdProducto"] = new SelectList(_unitOfWork.Producto.GetAll(), "IdProducto", "IdProducto", caracteristica.IdProducto);
             return View(caracteristica);
         }
 
         // GET: Caracteristica/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public  IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var caracteristica = await _context.Caracteristicas.FindAsync(id);
+            var caracteristica =  _unitOfWork.Caracteristica.Find(id);
             if (caracteristica == null)
             {
                 return NotFound();
             }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", caracteristica.IdProducto);
+            //Chequear si esta bien!
+            ViewData["IdProducto"] = new SelectList(_unitOfWork.Producto.GetAll(), "IdProducto", "IdProducto", caracteristica.IdProducto);
             return View(caracteristica);
         }
 
@@ -91,7 +95,7 @@ namespace Challenge13Kiosco.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCaracteristica,Precio,Ancho,Largo,Peso,IdProducto")] Caracteristica caracteristica)
+        public  IActionResult Edit(int id, [Bind("IdCaracteristica,Precio,Ancho,Largo,Peso,IdProducto")] Caracteristica caracteristica)
         {
             if (id != caracteristica.IdCaracteristica)
             {
@@ -102,12 +106,12 @@ namespace Challenge13Kiosco.Controllers
             {
                 try
                 {
-                    _context.Update(caracteristica);
-                    await _context.SaveChangesAsync();
+                    _unitOfWork.Caracteristica.Update(caracteristica);
+                     _unitOfWork.Caracteristica.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CaracteristicaExists(caracteristica.IdCaracteristica))
+                    if (caracteristica == null)
                     {
                         return NotFound();
                     }
@@ -118,21 +122,20 @@ namespace Challenge13Kiosco.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdProducto"] = new SelectList(_context.Productos, "IdProducto", "IdProducto", caracteristica.IdProducto);
+            ViewData["IdProducto"] = new SelectList(_unitOfWork.Producto.GetAll(), "IdProducto", "IdProducto", caracteristica.IdProducto);
             return View(caracteristica);
         }
 
         // GET: Caracteristica/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public  IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var caracteristica = await _context.Caracteristicas
-                .Include(c => c.Producto)
-                .FirstOrDefaultAsync(m => m.IdCaracteristica == id);
+            var caracteristica = _unitOfWork.Caracteristica.Find(id);
+                
             if (caracteristica == null)
             {
                 return NotFound();
@@ -144,17 +147,17 @@ namespace Challenge13Kiosco.Controllers
         // POST: Caracteristica/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public  IActionResult DeleteConfirmed(int id)
         {
-            var caracteristica = await _context.Caracteristicas.FindAsync(id);
-            _context.Caracteristicas.Remove(caracteristica);
-            await _context.SaveChangesAsync();
+            var caracteristica =  _unitOfWork.Caracteristica.Find(id);
+            _unitOfWork.Caracteristica.Delete(id);
+             _unitOfWork.Caracteristica.Save();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CaracteristicaExists(int id)
-        {
-            return _context.Caracteristicas.Any(e => e.IdCaracteristica == id);
-        }
+        //private bool CaracteristicaExists(int id)
+        //{
+        //    return _unitOfWork.Caracteristica.Find(e => e.IdCaracteristica == id);
+        //}
     }
 }
